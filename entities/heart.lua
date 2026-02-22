@@ -4,14 +4,15 @@ function spawn_heart(x,y)
  local heart={}
  heart.x=x
  heart.y=y
- heart.spd=0.5
+ heart.spd=0.1
+ heart.accel=0.01
  heart.hitbox={{x=x,y=y},{x=x+7,y=y+7}}
  add(hearts,heart)
 end
 
 function update_hearts()
  for heart in all(hearts) do
-  heart.spd+=0.05
+  heart.spd+=heart.accel
   heart.x-=heart.spd
   heart.hitbox={{x=heart.x,y=heart.y},{x=heart.x+7,y=heart.y+7}}
   if heart.x < -8 then

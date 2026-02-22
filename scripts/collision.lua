@@ -28,7 +28,7 @@ function check_bull_col(all_enemies, bullets)
         del(all_enemies,myen)
         sfx(myen.sfx)
         score+=myen.score
-        if not myen.isboss and flr(rnd(5))==0 then
+        if not myen.isboss and flr(rnd(20))==0 then
          spawn_heart(myen.hitbox[1].x,myen.hitbox[1].y)
         end
     end
