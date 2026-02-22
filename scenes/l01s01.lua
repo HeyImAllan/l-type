@@ -22,6 +22,7 @@ function update_l01()
  update_orbys(orbys)
  update_bats()
  update_auditrons(auditrons)
+ update_hearts()
  check_enemy_col(all_pumpkins)
  check_enemy_col(bats)
  check_enemy_col(orbys)
@@ -59,6 +60,7 @@ function draw_l01()
  draw_gravestones(all_gravestones)
  draw_pumpkins(all_pumpkins)
  draw_orbys(orbys)
+ draw_hearts()
  draw_auditrons(auditrons)
  if level_frame_count == 32767 then
     level_frame_count = 1
@@ -96,6 +98,7 @@ function reset_l01()
   bats={}
   pumpkins={}
   orbys={}
+  hearts={}
   starfield_array = {}
   clouds_array = {}
 end
