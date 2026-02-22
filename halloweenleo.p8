@@ -31,6 +31,7 @@ __lua__
 #include entities\explosions.lua
 #include entities\orby.lua
 #include entities\auditron.lua
+#include entities\heart.lua
 
 -- main
 function _init()
