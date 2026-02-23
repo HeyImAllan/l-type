@@ -1,44 +1,27 @@
--- flying egg obstacle
--- sprites 112,113: two-frame egg wobble (dev: replace with easter egg art)
 eggs={}
-egg_wanim={112,113}
-
+egg_wanim=split"124,125"
 function spawn_egg(py)
- local egg={}
- egg.x=128
- egg.y=py
- egg.spd=1.5
- egg.anim=1
- egg.hp=2
- egg.blink=0
- egg.sfx=4
- egg.score=2
- egg.vy=(rnd(1)-0.5)*0.4
- egg.update_hitbox=function(self)
-  self.hitbox={{x=self.x+1,y=self.y+1},
-               {x=self.x+6,y=self.y+6}}
- end
- egg:update_hitbox()
- add(eggs,egg)
+ local e={}
+ mk_en(e,py,2,4,2,1,1,6,6)
+ e.spd,e.anim,e.vy=1.5,1,(rnd(1)-.5)*.4
+ add(eggs,e)
 end
 
 function update_eggs()
- for egg in all(eggs) do
-  egg.x-=egg.spd
-  egg.y+=egg.vy
-  if egg.y<8 or egg.y>100 then egg.vy=-egg.vy end
-  if egg.x<-10 then del(eggs,egg) end
-  if frame_count%8==0 then
-   egg.anim=egg.anim%2+1
-  end
-  egg:update_hitbox()
+ for e in all(eggs) do
+  e.x-=e.spd
+  e.y+=e.vy
+  if e.y<8 or e.y>100 then e.vy=-e.vy end
+  if e.x<-10 then del(eggs,e) end
+  if frame_count%8==0 then e.anim=e.anim%2+1 end
+  e:update_hitbox()
  end
 end
 
 function draw_eggs()
- for egg in all(eggs) do
-  blink_sprite(egg)
-  spr(egg_wanim[egg.anim],egg.x,egg.y)
+ for e in all(eggs) do
+  blink_sprite(e)
+  spr(egg_wanim[e.anim],e.x,e.y)
   pal()
   setpalt()
  end

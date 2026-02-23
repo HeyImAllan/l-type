@@ -8,16 +8,10 @@ ponzi_attacks={"launder","offshore","hide"}
 
 function spawn_ponzibunny(py)
  local pb={}
- pb.x=140
- pb.y=py
- pb.hp=100
- pb.isboss=true
- pb.score=2000
- pb.laugh=true
- pb.update=function(self)
-  self.hitbox={{x=self.x+8,y=self.y+8},
-               {x=self.x+24,y=self.y+24}}
- end
+ pb.x,pb.y=140,py
+ pb.hp,pb.isboss,pb.score,pb.laugh=100,true,2000,true
+ pb.hx1,pb.hy1,pb.hx2,pb.hy2=8,8,24,24
+ pb.update=upd_hb
  pb.hitbox={{x=-5,y=-5},{x=-5,y=-5}}
  pb.shoot=ponzi_fire
  add(ponzibunnies,pb)
@@ -25,40 +19,12 @@ end
 
 function ponzi_fire(type,tx,ty)
  if type=="egg" then
-  if ponzi_card_wait==0 then
-   ponzi_card_wait=20
-   local b={}
-   b.x=tx b.y=ty
-   b.spd=2 b.muzzle=5
-   b.sprite=112 -- placeholder: golden egg projectile
-   b.update_hitbox=function(self)
-    self.hitbox={{x=self.x+1,y=self.y+1},
-                 {x=self.x+6,y=self.y+6}}
-   end
-   b.width=1
-   b:update_hitbox()
-   add(enemy_bullets,b)
-  end
- end
- if type=="launder" or type=="offshore" or type=="hide" then
-  local b={}
-  b.x=tx b.y=ty
-  b.spd=3 b.muzzle=5
-  -- placeholder sprites - dev: replace with launder/offshore/hide word sprites
-  if type=="launder" then
-   b.sprite=11
-  elseif type=="offshore" then
-   b.sprite=27
-  else
-   b.sprite=29
-  end
-  b.update_hitbox=function(self)
-   self.hitbox={{x=self.x+1,y=self.y+1},
-                {x=self.x+15,y=self.y+7}}
-  end
-  b.width=2
-  b:update_hitbox()
-  add(enemy_bullets,b)
+  if ponzi_card_wait>0 then return end
+  ponzi_card_wait=20
+  add(enemy_bullets,mk_ebul(tx,ty,2,112,1,6,6))
+ else
+  local s=type=="launder" and 11 or type=="offshore" and 27 or 29
+  add(enemy_bullets,mk_ebul(tx,ty,3,s,2,15,7))
  end
 end
 
@@ -74,11 +40,7 @@ function animate_ponzibunny(pb)
    pb.shoot(ponzi_attacks[flr(rnd(3))+1],pb.x+24,pb.y+20)
   end
  end
- if sin(t/40)<0.2 then
-  pb.laugh=true
- else
-  pb.laugh=false
- end
+ pb.laugh=sin(t/40)<0.2
  if ponzi_card_wait>0 then ponzi_card_wait-=1 end
 end
 

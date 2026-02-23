@@ -1,29 +1,18 @@
 orbys={}
 function spawn_orby(py)
- myorb={}
- myorb.x=128
- myorb.y=py
- myorb.spd=fgspeed
- myorb.hitbox={{x=128,y=py},
-                {x=128+8,y=py+8}}
- myorb.sprite=80
- myorb.coll_effect=orb_coll_effect
- add(orbys,myorb)
+ local e={x=128,y=py,spd=fgspeed,sprite=80,coll_effect=orb_coll_effect}
+ e.hx1,e.hy1,e.hx2,e.hy2=0,0,8,8
+ e.update_hitbox=upd_hb
+ e:update_hitbox()
+ add(orbys,e)
 end
 
 function update_orbys(orbys)
-    for myorb in all(orbys) do
-    
-        myorb.x-=myorb.spd
-        if myorb.x < -10 then
-            del(orbys,myorb)
-        end
-        myorb.y+=0
-        myorb.hitbox={{x=myorb.x,y=myorb.y},
-        {x=myorb.x+8,y=myorb.y+8}}
-    
-    end
-
+ for e in all(orbys) do
+  e.x-=e.spd
+  if e.x<-10 then del(orbys,e)
+  else e:update_hitbox() end
+ end
 end
 
 function draw_orbys(orbys)

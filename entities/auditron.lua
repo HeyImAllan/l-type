@@ -3,78 +3,26 @@ fires={}
 enemy_bullets={}
 card_wait=0
 function spawn_auditron(py)
-    local auditron={}
-    auditron.x=140
-    auditron.y=py
-    auditron.spd=0
-    auditron.laugh=true
-    auditron.hp=100
-    auditron.isboss=true
-    auditron.score=1000
-    auditron.update=function(self)
-        self.hitbox={{x=self.x+14,y=self.y+38},
-                    {x=self.x+14+6,y=self.y+38+10}}
-        end
-    auditron.hitbox={{x=-5,y=-5},
-                 {x=-5,y=-5}}
-
-    auditron.shoot=auditron_fire
-    add(auditrons,auditron)
+ local a={}
+ a.x,a.y,a.spd=140,py,0
+ a.laugh,a.hp,a.isboss,a.score=true,100,true,1000
+ a.hx1,a.hy1,a.hx2,a.hy2=14,38,20,48
+ a.update=upd_hb
+ a.hitbox={{x=-5,y=-5},{x=-5,y=-5}}
+ a.shoot=auditron_fire
+ add(auditrons,a)
 end
 
 function auditron_fire(type,tx,ty)
-    if type == "card" then
-        if card_wait == 0 then
-            card_wait=20
-            local mycard={}
-            mycard.x=tx
-            mycard.y=ty
-            mycard.spd=2
-            mycard.muzzle=5
-            mycard.sprite=48
-            mycard.update_hitbox=function(self)
-                self.hitbox={{x=self.x+1,y=self.y+1},
-                            {x=self.x+6,y=self.y+4}}
-                end
-            mycard.width=1
-            mycard:update_hitbox()
-            add(enemy_bullets,mycard)
-        end
-    end
-    if type == "fraud" then
-        local myfraud={}
-        myfraud.x=tx
-        myfraud.y=ty
-        myfraud.spd=3
-        myfraud.muzzle=5
-        myfraud.sprite=11
-        myfraud.update_hitbox=function(self)
-            self.hitbox={{x=self.x+1,y=self.y+1},
-                        {x=self.x+23,y=self.y+7}}
-            end
-        myfraud.width=3
-        myfraud:update_hitbox()
-        add(enemy_bullets,myfraud)
-    end
-    if type == "risk" or type == "hack" then
-        local risk={}
-        risk.x=tx
-        risk.y=ty
-        risk.spd=3
-        risk.muzzle=5
-        if type == "hack" then
-            risk.sprite=29
-        else
-            risk.sprite=27
-        end
-        risk.update_hitbox=function(self)
-            self.hitbox={{x=self.x+1,y=self.y+1},
-                        {x=self.x+15,y=self.y+7}}
-            end
-        risk:update_hitbox()    
-        risk.width=2
-        add(enemy_bullets,risk)
-    end
+ if type=="card" then
+  if card_wait>0 then return end
+  card_wait=20
+  add(enemy_bullets,mk_ebul(tx,ty,2,48,1,6,4))
+ elseif type=="fraud" then
+  add(enemy_bullets,mk_ebul(tx,ty,3,11,3,23,7))
+ else
+  add(enemy_bullets,mk_ebul(tx,ty,3,type=="hack" and 29 or 27,2,15,7))
+ end
 end
 
 function update_enemy_bullets(enemy_bullets)
@@ -141,11 +89,7 @@ function animate_auditron(tron)
             end
             
     end
-    if sin(t/40)<0.2 then
-        tron.laugh=true
-    else
-        tron.laugh=false
-    end
+    tron.laugh=sin(t/40)<0.2
     if card_wait > 0 then
         card_wait-=1
     end 
@@ -158,11 +102,9 @@ function update_auditrons(auditrons)
 end
 
 function spawn_fire(x,y,color,life)
-    local myex={x=x,y=y,life=rnd(life)}
-    myex.sx=(rnd()-0.5)*2
-    myex.sy=(rnd())*-4
-    myex.color=color
-    add(fires,myex)
+ local e={x=x,y=y,life=rnd(life),color=color}
+ e.sx,e.sy=(rnd()-.5)*2,-rnd()*4
+ add(fires,e)
 end
 
 function draw_fires(fires)

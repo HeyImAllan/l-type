@@ -1,5 +1,9 @@
 # GitHub Copilot Instructions
 
+## Environment
+- **Pico-8 executable:** `C:\Program Files (x86)\PICO-8\pico8.exe`
+- **Launch command:** `& "C:\Program Files (x86)\PICO-8\pico8.exe" -run "halloweenleo.p8"`
+
 ## Project Overview
 This is a Pico-8 cartridge (`halloweenleo.p8`) written in Lua. It is a Halloween-themed horizontal shoot-em-up (shmup) featuring Leo, an orange lion, as the player character.
 
