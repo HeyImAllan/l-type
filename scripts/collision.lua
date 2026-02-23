@@ -74,3 +74,7 @@ function coll(a,b)
         or ah[2].x<bh[1].x or ah[1].x>bh[2].x)
 end
 
+function check_enemy_cols(...)
+ for t in all({...}) do check_enemy_col(t) end
+end
+

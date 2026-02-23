@@ -12,7 +12,7 @@ function update_l02()
    [6]=reset_l02wave06,
    [7]=reset_l02boss
   }
-  local reset_func=wave_resets[halloweenwave]
+  local reset_func=wave_resets[scenewave]
   if reset_func then reset_func() end
  end
  process_enemy_map(enemy_map)
@@ -21,10 +21,7 @@ function update_l02()
  update_chicks()
  update_ponzibunnies()
  update_hearts()
- check_enemy_col(eggs)
- check_enemy_col(bunnies)
- check_enemy_col(chicks)
- check_enemy_col(enemy_bullets)
+ check_enemy_cols(eggs,bunnies,chicks,enemy_bullets)
  check_bull_col(eggs,bullets)
  check_bull_col(bunnies,bullets)
  check_bull_col(chicks,bullets)
@@ -32,18 +29,18 @@ function update_l02()
  level_frame_count+=1
  enemies_spawned=#eggs+#bunnies+#chicks+#ponzibunnies
  if enemies_spawned<=0 and level_frame_count>300 then
-  halloweenwave+=1
+  scenewave+=1
   scene_start=true
  end
 end
 
 function draw_l02()
  -- spring sky background
- rectfill(0,0,128,112,12)
- clouds(3)
+ rectfill(0,0,128,115,12)
+ clouds(3,7)
  draw_ground_l02()
 
- -- sun (dev: replace with sun sprite)
+ -- sun
  circfill(108,12,10,10)
  circ(108,12,10,9)
 
@@ -69,12 +66,12 @@ function draw_ground_l02()
  if ground_shift_l02>=8 then
   ground_shift_l02=0
  end
- -- dev: replace spr(58,...) with spring grass tile sprite
+
  for i=0,128,8 do
   spr(58,i-ground_shift_l02,112)
  end
  ground_shift_l02+=fgspeed
- rectfill(0,120,128,128,11)
+ rectfill(0,120,128,128,4)
 end
 
 function reset_l02()

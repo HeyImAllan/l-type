@@ -1,9 +1,8 @@
 -- BOSS: PONZI BUNNY
 -- a giant golden easter bunny that hides money in offshore eggs
 -- instills fear in bankers: shoots launder/offshore/hide beams
--- sprite 144: boss body placeholder 4x4 tiles (dev: replace with golden bunny art)
 ponzibunnies={}
-ponzi_card_wait=0
+ponzi_egg_wait=0
 ponzi_attacks={"launder","offshore","hide"}
 
 function spawn_ponzibunny(py)
@@ -19,9 +18,9 @@ end
 
 function ponzi_fire(type,tx,ty)
  if type=="egg" then
-  if ponzi_card_wait>0 then return end
-  ponzi_card_wait=20
-  add(enemy_bullets,mk_ebul(tx,ty,2,112,1,6,6))
+  if ponzi_egg_wait>0 then return end
+  ponzi_egg_wait=20
+  add(enemy_bullets,mk_ebul(tx,ty,2,124,1,6,6))
  else
   local s=type=="launder" and 11 or type=="offshore" and 27 or 29
   add(enemy_bullets,mk_ebul(tx,ty,3,s,2,15,7))
@@ -41,7 +40,7 @@ function animate_ponzibunny(pb)
   end
  end
  pb.laugh=sin(t/40)<0.2
- if ponzi_card_wait>0 then ponzi_card_wait-=1 end
+ if ponzi_egg_wait>0 then ponzi_egg_wait-=1 end
 end
 
 function update_ponzibunnies()
@@ -59,8 +58,7 @@ function draw_ponzibunnies()
     pset(i+11,18,8)
    end
   end
-  -- dev: replace spr(144,...) with actual golden bunny boss sprite
-  spr(144,pb.x,pb.y,4,4)
+  spr(132,pb.x,pb.y,4,4)
   draw_enemy_bullets(enemy_bullets)
  end
 end

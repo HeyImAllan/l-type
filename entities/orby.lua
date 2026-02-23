@@ -1,6 +1,6 @@
 orbys={}
 function spawn_orby(py)
- local e={x=128,y=py,spd=fgspeed,sprite=80,coll_effect=orb_coll_effect}
+ local e={x=128,y=py,spd=fgspeed,sprite=0,coll_effect=orb_coll_effect}
  e.hx1,e.hy1,e.hx2,e.hy2=0,0,8,8
  e.update_hitbox=upd_hb
  e:update_hitbox()

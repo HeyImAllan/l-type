@@ -1,6 +1,6 @@
 chicks={}
 chick_pat=split"3,3,-3,-3"
-chick_sprs=split"64,65,66,67"
+chick_sprs=split"80,81,82,81"
 function spawn_chick(py)
  local e={}
  mk_en(e,py,3,3,2,2,2,12,10)
