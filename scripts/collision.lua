@@ -22,7 +22,11 @@ function check_bull_col(all_enemies, bullets)
           spawn_explosion(myen.hitbox[2].x,myen.hitbox[1].y,false,30)
           spawn_explosion(myen.hitbox[1].x,myen.hitbox[2].y,false,45)
           spawn_explosion(myen.hitbox[2].x,myen.hitbox[2].y,false,60)
-          mode = "gamewon"
+          if level>=max_level then
+           mode="gamewon"
+          else
+           mode="levelcomplete"
+          end
           music(-1)
         end
         del(all_enemies,myen)

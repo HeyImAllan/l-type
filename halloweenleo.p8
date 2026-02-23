@@ -32,6 +32,11 @@ __lua__
 #include entities\orby.lua
 #include entities\auditron.lua
 #include entities\heart.lua
+#include entities\egg.lua
+#include entities\bunny.lua
+#include entities\chick.lua
+#include entities\ponzibunny.lua
+#include scenes\l02s01.lua
 
 -- main
 function _init()
@@ -41,6 +46,7 @@ setpalt()
 -- game settings
 mode="menu"
 level=1
+max_level=2
 halloweenwave=1
 scene_start=true
 
@@ -99,13 +105,23 @@ function _draw()
   if winwait < 0 then
     draw_gamewin()
   else
-    draw_l01()
+    if level==1 then draw_l01()
+    elseif level==2 then draw_l02() end
     winwait-=1
     end
+ end
+ if mode == "levelcomplete" then
+  if winwait>0 then
+   if level==1 then draw_l01()
+   elseif level==2 then draw_l02() end
+   winwait-=1
+  end
  end
  if mode == "game" then
   if level == 1 then
     draw_l01()
+  elseif level==2 then
+    draw_l02()
   end
  end
  frame_count+=1
@@ -116,8 +132,18 @@ function _update()
  if mode == "game" then
   if level == 1 then
    update_l01()
+  elseif level==2 then
+   update_l02()
   end
   update_game()
+ end
+ if mode == "levelcomplete" and winwait<=0 then
+  level+=1
+  halloweenwave=1
+  scene_start=true
+  reset_level(level)
+  mode="game"
+  winwait=-1
  end
  if mode == "menu" then
   if btnp(5) then
@@ -195,7 +221,11 @@ function setpalt()
 end
 
 function reset_level(level)
-  reset_l01()
+  if level==1 then
+   reset_l01()
+  elseif level==2 then
+   reset_l02()
+  end
 end
 -- update game
 function update_game()
