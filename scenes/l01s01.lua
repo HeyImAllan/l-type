@@ -13,7 +13,7 @@ function update_l01()
       [6] = reset_l01boss
     }
 
-    local reset_func = wave_resets[halloweenwave]
+    local reset_func = wave_resets[scenewave]
     if reset_func then reset_func() end
   end
  process_enemy_map(enemy_map)
@@ -23,10 +23,7 @@ function update_l01()
  update_bats()
  update_auditrons(auditrons)
  update_hearts()
- check_enemy_col(all_pumpkins)
- check_enemy_col(bats)
- check_enemy_col(orbys)
- check_enemy_col(enemy_bullets)
+ check_enemy_cols(all_pumpkins,bats,orbys,enemy_bullets)
  check_bull_col(auditrons,bullets)
  check_bull_col(all_pumpkins, bullets)
  check_bull_col(bats, bullets)
@@ -34,7 +31,7 @@ function update_l01()
  level_frame_count+=1
  enemies_spawned = #bats + #orbys + #pumpkins + #auditrons
  if enemies_spawned <= 0 and level_frame_count > 300 then
-   halloweenwave+=1
+   scenewave+=1
    scene_start=true
  end
 end

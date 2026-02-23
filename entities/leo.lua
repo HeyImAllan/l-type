@@ -1,61 +1,28 @@
 -- movement constraints
 
 function new_leo()
-    leo={}
-    leo.x=20
-    leo.sx=0
-    leo.y=64
-    leo.sy=0
-    leo.hitbox={
-            {x=leo.x+9, y=leo.y+11},
-            {x=leo.x+10, y=leo.y+11}
-            }
-
-    leo.speed_bonus=0
-    leo.plane_sspr_sx=8
-    leo.plane_sspr_sy=16
-    leo.invert=false
-    leo.vertical_bob=0
-    leo.blink=0
-    leo.prop=19
-    leo.prop_x=16
-    leo.max_health=3
-    leo.health=4
-    return leo
+ leo={}
+ leo.x,leo.sx,leo.y,leo.sy=20,0,64,0
+ leo.hx1,leo.hy1,leo.hx2,leo.hy2=9,11,10,11
+ leo.update_hitbox=upd_hb
+ leo:update_hitbox()
+ leo.speed_bonus,leo.plane_sspr_sx,leo.plane_sspr_sy=0,8,16
+ leo.invert,leo.vertical_bob,leo.blink=false,0,0
+ leo.prop,leo.prop_x,leo.max_health,leo.health=19,16,3,4
+ return leo
 end
 
 
 
 function leoboundscheck(leo)
- -- bounds checking
- if (leo.y >= 100) then
-  leo.y=100
- end
-
- if (leo.y <= -1) then
-	 leo.y=-1
- end
-
- if (leo.x >= 112) then
-  leo.x=112
- end
-
- if (leo.x <= -1) then
-  leo.x=0
- end
+ leo.x=mid(leo.x,0,112)
+ leo.y=mid(leo.y,-1,100)
 end
 
 function leoreset(leo)
- leo.sx=0
- leo.sy=0
- leo.plane_sspr_sy=16
- leo.invert_spr=false
- leo.prop_x=16
+ leo.sx,leo.sy,leo.plane_sspr_sy,leo.invert_spr,leo.prop_x,leo.speed_bonus=0,0,16,false,16,0
  afterburner_x=-7
- leo.speed_bonus=0
- if muzzle >= 0 then
-  muzzle=muzzle-1
- end
+ if muzzle>=0 then muzzle-=1 end
 end
 
 function draw_leo(leo)
@@ -70,7 +37,7 @@ function draw_leo(leo)
      ,16,8,leo.invert_spr)
  spr(leo.prop,draw_x+leo.prop_x,draw_y+8,1,1,leo.invert_spr)
  -- display afterburner
- if (afterburner_on == true) then
+ if afterburner_on then
   spr(afterburner_gfx,draw_x+afterburner_x,draw_y+8,1,1,leo.invert_spr)
  end
  pal()
@@ -79,12 +46,8 @@ function draw_leo(leo)
 end
 
 function move_leo(leo)
-    	-- movement calculations
-	leo.x=leo.x+leo.sx
-	leo.y=leo.y+leo.sy
-	leo.hitbox={
-           {x=leo.x+9, y=leo.y+11},
-           {x=leo.x+10, y=leo.y+11}
-           }
+ leo.x+=leo.sx
+ leo.y+=leo.sy
+ leo:update_hitbox()
 end
 

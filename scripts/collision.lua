@@ -22,7 +22,11 @@ function check_bull_col(all_enemies, bullets)
           spawn_explosion(myen.hitbox[2].x,myen.hitbox[1].y,false,30)
           spawn_explosion(myen.hitbox[1].x,myen.hitbox[2].y,false,45)
           spawn_explosion(myen.hitbox[2].x,myen.hitbox[2].y,false,60)
-          mode = "gamewon"
+          if level>=max_level then
+           mode="gamewon"
+          else
+           mode="levelcomplete"
+          end
           music(-1)
         end
         del(all_enemies,myen)
@@ -65,32 +69,12 @@ function check_enemy_col(all_enemies)
 end
 
 function coll(a,b)
- a_left=a.hitbox[1].x
- a_right=a.hitbox[2].x
- a_top=a.hitbox[1].y
- a_bot=a.hitbox[2].y
- b_left=b.hitbox[1].x
- b_right=b.hitbox[2].x
- b_top=b.hitbox[1].y
- b_bot=b.hitbox[2].y
- 
- //draw_hitboxes(a,b)
- // box a is below box b
- if a_top>b_bot then
-  return false
- end
- // box a is above box b
- if a_bot<b_top then
-  return false
- end
- // box a is left of box b
- if a_right<b_left then
-  return false
- end
- //box a is right of box b
- if a_left>b_right then
-  return false
- end
- return true 
+ local ah,bh=a.hitbox,b.hitbox
+ return not(ah[1].y>bh[2].y or ah[2].y<bh[1].y
+        or ah[2].x<bh[1].x or ah[1].x>bh[2].x)
+end
+
+function check_enemy_cols(...)
+ for t in all({...}) do check_enemy_col(t) end
 end
 
